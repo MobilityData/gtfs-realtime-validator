@@ -7,11 +7,10 @@
 	<parent>
 		<groupId>edu.usf.cutr</groupId>
 		<artifactId>gtfs-realtime-validator</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	
+
 	<artifactId>gtfs-realtime-validator-webapp</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>${env.versionTag}</version>
 
     <properties>
         <jetty-version>9.4.35.v20201120</jetty-version>
