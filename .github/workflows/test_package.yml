@@ -40,6 +40,8 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           cache: maven
+        env:
+          versionTag: ${{ steps.prep.outputs.versionTag }}
       - name: Run Java tests
         run: mvn test
       - name: Persist Java tests reports
@@ -75,6 +77,8 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           cache: maven
+        env:
+          versionTag: ${{ steps.prep.outputs.versionTag }}
       - name: Package lib/cli and web app jars with Maven
         run: mvn -B package --file pom.xml -DskipTests
       - name: Persist lib jar
