@@ -25,7 +25,7 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-          cache: 'maven'
+          cache: maven
       - name: Run Java tests
         run: mvn test
       - name: Persist Java tests reports
@@ -46,7 +46,7 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-          cache: 'maven'
+          cache: maven
       - name: Package lib/cli and web app jars with Maven
         run: mvn -B package --file pom.xml -DskipTests
       - name: Persist lib jar
