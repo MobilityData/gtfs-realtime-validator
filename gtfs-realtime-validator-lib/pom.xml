@@ -7,11 +7,11 @@
     <parent>
         <groupId>edu.usf.cutr</groupId>
         <artifactId>gtfs-realtime-validator</artifactId>
-        <version>${parent.version}</version>
+        <version>${project.version}</version>
     </parent>
 
     <artifactId>gtfs-realtime-validator-lib</artifactId>
-    <version>${project.version}</version>
+    <version>${parent.version}</version>
 
     <dependencies>
         <!-- JSON (de)serialization -->
