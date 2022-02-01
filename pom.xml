@@ -6,7 +6,10 @@
 
     <groupId>edu.usf.cutr</groupId>
     <artifactId>gtfs-realtime-validator</artifactId>
-    <version>${env.versionTag}</version>
+    <properties>
+        <versionTag>${env.versionTag}</versionTag>
+    </properties>
+    <version>${versionTag}</version>
     <packaging>pom</packaging>
 
     <modules>
