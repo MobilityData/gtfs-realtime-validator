@@ -6,7 +6,7 @@
 
     <groupId>edu.usf.cutr</groupId>
     <artifactId>gtfs-realtime-validator</artifactId>
-    <version>${System.getenv("versionTag")}</version>
+    <version>${env.versionTag}</version>
     <packaging>pom</packaging>
 
     <modules>
