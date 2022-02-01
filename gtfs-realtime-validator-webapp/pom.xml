@@ -6,7 +6,8 @@
 
 	<parent>
 		<groupId>edu.usf.cutr</groupId>
-		<artifactId>gtfs-realtime-validator</artifactId>
+      <artifactId>gtfs-realtime-validator</artifactId>
+      <version>${env.versionTag}</version>
 	</parent>
 
 	<artifactId>gtfs-realtime-validator-webapp</artifactId>
