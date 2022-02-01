@@ -1,7 +1,7 @@
 # This workflow will test and build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: Test Package
+name: Test and Package
 
 on:
   push:
@@ -36,7 +36,7 @@ jobs:
           path: |
             gtfs-realtime-validator-lib/target/surefire-reports
             gtfs-realtime-validator-webapp/target/surefire-reports
-  pack:
+  package:
     needs: [test]
     runs-on: ubuntu-latest
     steps:
@@ -47,7 +47,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           cache: 'maven'
-      - name: Package cli app jar with Maven
+      - name: Package lib/cli and web app jars with Maven
         run: mvn -B package --file pom.xml -DskipTests
       - name: Persist lib jar
         uses: actions/upload-artifact@v2
