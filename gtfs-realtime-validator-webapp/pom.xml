@@ -7,11 +7,11 @@
 	<parent>
 		<groupId>edu.usf.cutr</groupId>
       <artifactId>gtfs-realtime-validator</artifactId>
-      <version>${env.versionTag}</version>
+      <version>${System.getenv("versionTag")}</version>
 	</parent>
 
 	<artifactId>gtfs-realtime-validator-webapp</artifactId>
-    <version>${env.versionTag}</version>
+    <version>${System.getenv("versionTag")}</version>
 
     <properties>
         <jetty-version>9.4.35.v20201120</jetty-version>
@@ -32,7 +32,7 @@
 		<dependency>
             <groupId>edu.usf.cutr</groupId>
             <artifactId>gtfs-realtime-validator-lib</artifactId>
-            <version>${env.versionTag}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -150,7 +150,7 @@
         <dependency>
             <groupId>edu.usf.cutr</groupId>
             <artifactId>gtfs-realtime-validator-lib</artifactId>
-            <version>${env.versionTag}</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
