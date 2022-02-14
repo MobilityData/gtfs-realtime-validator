@@ -6,14 +6,15 @@
 
 	<parent>
 		<groupId>edu.usf.cutr</groupId>
-      <artifactId>gtfs-realtime-validator</artifactId>
-      <version>${env.versionTag}</version>
+        <artifactId>gtfs-realtime-validator</artifactId>
+        <version>${revision}</version>
 	</parent>
 
 	<artifactId>gtfs-realtime-validator-webapp</artifactId>
     <version>${parent.version}</version>
 
     <properties>
+        <!--suppress UnresolvedMavenProperty -->
         <jetty-version>9.4.35.v20201120</jetty-version>
     </properties>
 
