@@ -1,7 +1,6 @@
 # GTFS-realtime Validator [![Test and Package](https://github.com/MobilityData/gtfs-realtime-validator/actions/workflows/test_package.yml/badge.svg)](https://github.com/MobilityData/gtfs-realtime-validator/actions/workflows/test_package.yml) [![Docker image](https://github.com/MobilityData/gtfs-realtime-validator/actions/workflows/docker.yml/badge.svg)](https://github.com/MobilityData/gtfs-realtime-validator/actions/workflows/docker.yml) [![Join the GTFS-realtime chat](https://img.shields.io/badge/chat-on%20slack-red)](https://bit.ly/mobilitydata-slack)
 A tool that validates [General Transit Feed Specification (GTFS)-realtime](https://developers.google.com/transit/gtfs-realtime/) feeds
 
-
 <img src="https://cloud.githubusercontent.com/assets/928045/25874575/2afaa3b0-34e1-11e7-92a4-b0a68f233748.png" width="1000">
 
 Read more in [this Medium article](https://medium.com/@sjbarbeau/introducing-the-gtfs-realtime-validator-e1aae3185439).
