@@ -13,7 +13,7 @@ Questions? You can [open an issue](https://github.com/CUTR-at-USF/gtfs-realtime-
 
 ### Prerequisites
 
-1. Install [Java Development Kit (JDK) 11 or higher](https://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html)
+1. Install [Java Development Kit (JDK) 11 or higher](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html)
 
 ### Run the webapp
 
@@ -53,7 +53,7 @@ The main **gtfs-realtime-validator-webapp** user interface is implemented as a w
 
 Following are the requirements to build and run the project from source code: 
 
-* [Java Development Kit (JDK) 11 or higher](https://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html)
+* [Java Development Kit (JDK) 11 or higher](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html)
 * [Apache Maven](https://maven.apache.org/)
 
 #### 1. Build the project 

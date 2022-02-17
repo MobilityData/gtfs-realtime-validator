@@ -10,7 +10,7 @@ As part of the **gtfs-realtime-validator-lib** module we support a command-line 
  
 ### Prerequisites
  
-1. Install [Java Development Kit (JDK) 1.8 or higher](http://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html)
+1. Install [Java Development Kit (JDK) 11 or higher](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html)
  
 ### Run it yourself
  

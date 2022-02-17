@@ -1,6 +1,6 @@
 # gtfs-realtime-validator-webapp
 
-A server and website that allows multiple users to validate GTFS-relatime feeds by simply entering URLs into the website.
+A server and website that allows multiple users to validate GTFS Realtime feeds by simply entering URLs into the website.
 
 Uses the [**gtfs-realtime-validator-lib**](https://github.com/CUTR-at-USF/gtfs-realtime-validator/gtfs-realtime-validator-lib) submodule in this repository, which implements the [validation rules](../RULES.md).
 
