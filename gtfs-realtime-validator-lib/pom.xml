@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>edu.usf.cutr</groupId>
+        <groupId>org.mobilitydata</groupId>
         <artifactId>gtfs-realtime-validator</artifactId>
-        <version>${revision}</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>gtfs-realtime-validator-lib</artifactId>
-    <version>${parent.version}</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <dependencies>
         <!-- JSON (de)serialization -->
@@ -162,7 +162,7 @@
                             <executable>java</executable>
                             <arguments>
                                 <classpath/>
-                                <argument>edu.usf.cutr.gtfsrtvalidator.lib.Main</argument>
+                                <argument>org.mobilitydata.gtfsrtvalidator.lib.Main</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -191,7 +191,7 @@
                     <transformers>
                         <transformer
                                 implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>edu.usf.cutr.gtfsrtvalidator.lib.Main</mainClass>
+                            <mainClass>org.mobilitydata.gtfsrtvalidator.lib.Main</mainClass>
                         </transformer>
                         <!-- files overwrite each other and geotools does not function without
                         this. http://docs.geotools.org/latest/userguide/faq.html#how-do-i-create-an-executable-jar-for-my-geotools-app -->
