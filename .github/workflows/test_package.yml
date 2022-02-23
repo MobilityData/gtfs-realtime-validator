@@ -49,5 +49,6 @@ jobs:
           cache: maven
       - name: Deploy to Github Package Registry
         env:
+          GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode --update-snapshots deploy --settings .mvn/custom-settings.xml -DskipTests -DGITHUB_REPOSITORY=$GITHUB_REPOSITORY
