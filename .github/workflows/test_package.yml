@@ -51,4 +51,4 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: mvn --batch-mode --update-snapshots deploy --settings .mvn/custom-settings.xml -DskipTests -DGITHUB_REPOSITORY=$GITHUB_REPOSITORY
+        run: mvn --batch-mode --update-snapshots deploy -DskipTests -DGITHUB_REPOSITORY=$GITHUB_REPOSITORY
