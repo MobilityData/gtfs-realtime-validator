@@ -48,6 +48,7 @@ jobs:
           distribution: 'adopt'
           cache: maven
       - name: Deploy to Github Package Registry
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && matrix.os == 'ubuntu-latest'
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
