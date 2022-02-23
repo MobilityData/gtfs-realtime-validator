@@ -9,6 +9,10 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <properties>
+        <GITHUB_REPOSITORY>MobilityData/gtfs-realtime-validator</GITHUB_REPOSITORY>
+    </properties>
+
     <modules>
         <module>gtfs-realtime-validator-lib</module>
 		<module>gtfs-realtime-validator-webapp</module>
@@ -31,4 +35,11 @@
             <url>https://repo.camsys-apps.com/releases/</url>
         </repository>
     </repositories>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>MobilityData GTFS Realtime Validator Maven Repository on Github Packages</name>
+            <url>https://maven.pkg.github.com/${GITHUB_REPOSITORY}/</url>
+        </repository>
+    </distributionManagement>
 </project>
