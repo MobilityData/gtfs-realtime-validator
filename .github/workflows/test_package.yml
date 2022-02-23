@@ -27,7 +27,7 @@ jobs:
           distribution: 'adopt'
           cache: maven
       - name: Run Java tests
-        run: mvn --batch-mode --update-snapshots test
+        run: mvn test
       - name: Persist Java tests reports
         if: always()
         uses: actions/upload-artifact@v2
@@ -47,8 +47,8 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           cache: maven
-  - name: Deploy to Github Package Registry
-      if: github.event_name == 'push' && github.ref == 'refs/heads/master' && matrix.os == 'ubuntu-latest'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: mvn --batch-mode --update-snapshots deploy -DskipTests -DGITHUB_REPOSITORY=$GITHUB_REPOSITORY
+      - name: Deploy to Github Package Registry
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && matrix.os == 'ubuntu-latest'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: mvn --batch-mode --update-snapshots deploy -DskipTests -DGITHUB_REPOSITORY=$GITHUB_REPOSITORY
