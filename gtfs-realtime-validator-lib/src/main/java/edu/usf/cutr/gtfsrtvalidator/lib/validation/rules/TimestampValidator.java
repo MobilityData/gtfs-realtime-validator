@@ -18,7 +18,6 @@
 package edu.usf.cutr.gtfsrtvalidator.lib.validation.rules;
 
 import com.google.transit.realtime.GtfsRealtime;
-import edu.usf.cutr.gtfsrtvalidator.lib.validation.interfaces.FeedEntityValidator;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.MessageLogModel;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.OccurrenceModel;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.helper.ErrorListHelperModel;
@@ -26,6 +25,7 @@ import edu.usf.cutr.gtfsrtvalidator.lib.util.GtfsUtils;
 import edu.usf.cutr.gtfsrtvalidator.lib.util.RuleUtils;
 import edu.usf.cutr.gtfsrtvalidator.lib.util.TimestampUtils;
 import edu.usf.cutr.gtfsrtvalidator.lib.validation.GtfsMetadata;
+import edu.usf.cutr.gtfsrtvalidator.lib.validation.interfaces.FeedEntityValidator;
 import org.onebusaway.gtfs.services.GtfsMutableDao;
 import org.slf4j.LoggerFactory;
 

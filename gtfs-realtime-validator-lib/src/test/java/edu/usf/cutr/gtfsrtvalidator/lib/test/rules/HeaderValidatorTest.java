@@ -17,9 +17,9 @@
 package edu.usf.cutr.gtfsrtvalidator.lib.test.rules;
 
 import com.google.transit.realtime.GtfsRealtime;
-import edu.usf.cutr.gtfsrtvalidator.lib.test.util.TestUtils;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.ValidationRule;
 import edu.usf.cutr.gtfsrtvalidator.lib.test.FeedMessageTest;
+import edu.usf.cutr.gtfsrtvalidator.lib.test.util.TestUtils;
 import edu.usf.cutr.gtfsrtvalidator.lib.util.TimestampUtils;
 import edu.usf.cutr.gtfsrtvalidator.lib.validation.ValidationRules;
 import edu.usf.cutr.gtfsrtvalidator.lib.validation.rules.HeaderValidator;

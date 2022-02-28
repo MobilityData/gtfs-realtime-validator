@@ -17,11 +17,11 @@
 package edu.usf.cutr.gtfsrtvalidator.lib.test;
 
 import com.google.transit.realtime.GtfsRealtime;
-import edu.usf.cutr.gtfsrtvalidator.lib.test.util.TestUtils;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.MessageLogModel;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.OccurrenceModel;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.ValidationRule;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.helper.ErrorListHelperModel;
+import edu.usf.cutr.gtfsrtvalidator.lib.test.util.TestUtils;
 import edu.usf.cutr.gtfsrtvalidator.lib.util.GtfsUtils;
 import edu.usf.cutr.gtfsrtvalidator.lib.util.SortUtils;
 import edu.usf.cutr.gtfsrtvalidator.lib.util.TimestampUtils;
