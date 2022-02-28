@@ -191,7 +191,7 @@
                                 <argument>-Dorg.eclipse.jetty.webapp.LEVEL=DEBUG</argument>
                                 <argument>-cp</argument>
                                 <classpath/>
-                                <argument>org.mobilitydata.gtfsrtvalidator.Main</argument>
+                                <argument>edu.usf.cutr.gtfsrtvalidator.Main</argument>
                                 <argument>8080</argument>
                             </arguments>
                         </configuration>
@@ -221,7 +221,7 @@
                     <transformers>
                         <transformer
                                 implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>org.mobilitydata.gtfsrtvalidator.Main</mainClass>
+                            <mainClass>edu.usf.cutr.gtfsrtvalidator.Main</mainClass>
                         </transformer>
                         <!-- files overwrite each other and geotools does not function without
                         this. http://docs.geotools.org/latest/userguide/faq.html#how-do-i-create-an-executable-jar-for-my-geotools-app -->
