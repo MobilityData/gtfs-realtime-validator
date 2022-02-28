@@ -19,8 +19,8 @@ package edu.usf.cutr.gtfsrtvalidator.api.resource;
 
 import edu.usf.cutr.gtfsrtvalidator.db.GTFSDB;
 import edu.usf.cutr.gtfsrtvalidator.hibernate.HibernateUtil;
-import edu.usf.cutr.gtfsrtvalidator.util.FileUtil;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.GtfsFeedModel;
+import edu.usf.cutr.gtfsrtvalidator.util.FileUtil;
 import junit.framework.TestCase;
 
 import javax.ws.rs.core.Response;

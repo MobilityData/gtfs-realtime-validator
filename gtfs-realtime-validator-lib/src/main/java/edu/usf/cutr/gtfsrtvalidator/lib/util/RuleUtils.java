@@ -16,8 +16,8 @@
  */
 package edu.usf.cutr.gtfsrtvalidator.lib.util;
 
-import edu.usf.cutr.gtfsrtvalidator.lib.model.ValidationRule;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.OccurrenceModel;
+import edu.usf.cutr.gtfsrtvalidator.lib.model.ValidationRule;
 
 import java.util.List;
 

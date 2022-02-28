@@ -16,8 +16,8 @@
  */
 package edu.usf.cutr.gtfsrtvalidator.test.queries;
 
-import edu.usf.cutr.gtfsrtvalidator.api.resource.GtfsRtFeed;
 import edu.usf.cutr.gtfsrtvalidator.api.resource.GtfsFeedTest;
+import edu.usf.cutr.gtfsrtvalidator.api.resource.GtfsRtFeed;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.ViewErrorLogModel;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.ViewErrorSummaryModel;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.helper.MergeMonitorData;
