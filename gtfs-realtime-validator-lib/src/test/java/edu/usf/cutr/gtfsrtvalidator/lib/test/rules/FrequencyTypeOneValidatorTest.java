@@ -20,14 +20,15 @@ import com.google.transit.realtime.GtfsRealtime;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.ValidationRule;
 import edu.usf.cutr.gtfsrtvalidator.lib.test.FeedMessageTest;
 import edu.usf.cutr.gtfsrtvalidator.lib.test.util.TestUtils;
-import edu.usf.cutr.gtfsrtvalidator.lib.util.TimestampUtils;
-import edu.usf.cutr.gtfsrtvalidator.lib.validation.ValidationRules;
 import edu.usf.cutr.gtfsrtvalidator.lib.validation.rules.FrequencyTypeOneValidator;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static edu.usf.cutr.gtfsrtvalidator.lib.util.TimestampUtils.MIN_POSIX_TIME;
+import static edu.usf.cutr.gtfsrtvalidator.lib.validation.ValidationRules.E019;
 
 /**
  * Tests to evaluate rules for Frequency-based exact_times=1 trips
@@ -59,20 +60,20 @@ public class FrequencyTypeOneValidatorTest extends FeedMessageTest {
         tripDescriptorBuilder.setTripId("15.1");
         tripDescriptorBuilder.setStartTime("06:00:00");
 
-        feedHeaderBuilder.setTimestamp(TimestampUtils.MIN_POSIX_TIME);
+        feedHeaderBuilder.setTimestamp(MIN_POSIX_TIME);
         feedMessageBuilder.setHeader(feedHeaderBuilder.build());
 
-        tripUpdateBuilder.setTimestamp(TimestampUtils.MIN_POSIX_TIME);
+        tripUpdateBuilder.setTimestamp(MIN_POSIX_TIME);
         tripUpdateBuilder.setTrip(tripDescriptorBuilder.build());
         feedEntityBuilder.setTripUpdate(tripUpdateBuilder);
 
-        vehiclePositionBuilder.setTimestamp(TimestampUtils.MIN_POSIX_TIME);
+        vehiclePositionBuilder.setTimestamp(MIN_POSIX_TIME);
         vehiclePositionBuilder.setTrip(tripDescriptorBuilder.build());
         feedEntityBuilder.setVehicle(vehiclePositionBuilder.build());
 
         feedMessageBuilder.setEntity(0, feedEntityBuilder.build());
 
-        results = frequencyTypeOneValidator.validate(TimestampUtils.MIN_POSIX_TIME, gtfsData, gtfsDataMetadata, feedMessageBuilder.build(), null, null);
+        results = frequencyTypeOneValidator.validate(MIN_POSIX_TIME, gtfsData, gtfsDataMetadata, feedMessageBuilder.build(), null, null);
         expected.clear();
         TestUtils.assertResults(expected, results);
 
@@ -83,20 +84,20 @@ public class FrequencyTypeOneValidatorTest extends FeedMessageTest {
         tripDescriptorBuilder.setTripId("15.1");
         tripDescriptorBuilder.setStartTime("07:00:00");
 
-        feedHeaderBuilder.setTimestamp(TimestampUtils.MIN_POSIX_TIME);
+        feedHeaderBuilder.setTimestamp(MIN_POSIX_TIME);
         feedMessageBuilder.setHeader(feedHeaderBuilder.build());
 
-        tripUpdateBuilder.setTimestamp(TimestampUtils.MIN_POSIX_TIME);
+        tripUpdateBuilder.setTimestamp(MIN_POSIX_TIME);
         tripUpdateBuilder.setTrip(tripDescriptorBuilder.build());
         feedEntityBuilder.setTripUpdate(tripUpdateBuilder);
 
-        vehiclePositionBuilder.setTimestamp(TimestampUtils.MIN_POSIX_TIME);
+        vehiclePositionBuilder.setTimestamp(MIN_POSIX_TIME);
         vehiclePositionBuilder.setTrip(tripDescriptorBuilder.build());
         feedEntityBuilder.setVehicle(vehiclePositionBuilder.build());
 
         feedMessageBuilder.setEntity(0, feedEntityBuilder.build());
 
-        results = frequencyTypeOneValidator.validate(TimestampUtils.MIN_POSIX_TIME, gtfsData, gtfsDataMetadata, feedMessageBuilder.build(), null, null);
+        results = frequencyTypeOneValidator.validate(MIN_POSIX_TIME, gtfsData, gtfsDataMetadata, feedMessageBuilder.build(), null, null);
         expected.clear();
         TestUtils.assertResults(expected, results);
 
@@ -107,21 +108,21 @@ public class FrequencyTypeOneValidatorTest extends FeedMessageTest {
         tripDescriptorBuilder.setTripId("15.1");
         tripDescriptorBuilder.setStartTime("07:30:00");
 
-        feedHeaderBuilder.setTimestamp(TimestampUtils.MIN_POSIX_TIME);
+        feedHeaderBuilder.setTimestamp(MIN_POSIX_TIME);
         feedMessageBuilder.setHeader(feedHeaderBuilder.build());
 
-        tripUpdateBuilder.setTimestamp(TimestampUtils.MIN_POSIX_TIME);
+        tripUpdateBuilder.setTimestamp(MIN_POSIX_TIME);
         tripUpdateBuilder.setTrip(tripDescriptorBuilder.build());
         feedEntityBuilder.setTripUpdate(tripUpdateBuilder);
 
-        vehiclePositionBuilder.setTimestamp(TimestampUtils.MIN_POSIX_TIME);
+        vehiclePositionBuilder.setTimestamp(MIN_POSIX_TIME);
         vehiclePositionBuilder.setTrip(tripDescriptorBuilder.build());
         feedEntityBuilder.setVehicle(vehiclePositionBuilder.build());
 
         feedMessageBuilder.setEntity(0, feedEntityBuilder.build());
 
-        results = frequencyTypeOneValidator.validate(TimestampUtils.MIN_POSIX_TIME, gtfsData, gtfsDataMetadata, feedMessageBuilder.build(), null, null);
-        expected.put(ValidationRules.E019, 2);
+        results = frequencyTypeOneValidator.validate(MIN_POSIX_TIME, gtfsData, gtfsDataMetadata, feedMessageBuilder.build(), null, null);
+        expected.put(E019, 2);
         TestUtils.assertResults(expected, results);
 
         clearAndInitRequiredFeedFields();

@@ -17,18 +17,19 @@
 
 package edu.usf.cutr.gtfsrtvalidator.lib.validation.gtfs;
 
-import edu.usf.cutr.gtfsrtvalidator.lib.model.helper.ErrorListHelperModel;
-import edu.usf.cutr.gtfsrtvalidator.lib.validation.interfaces.GtfsFeedValidator;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.MessageLogModel;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.OccurrenceModel;
+import edu.usf.cutr.gtfsrtvalidator.lib.model.helper.ErrorListHelperModel;
 import edu.usf.cutr.gtfsrtvalidator.lib.util.RuleUtils;
-import edu.usf.cutr.gtfsrtvalidator.lib.validation.ValidationRules;
+import edu.usf.cutr.gtfsrtvalidator.lib.validation.interfaces.GtfsFeedValidator;
 import org.onebusaway.gtfs.impl.GtfsDaoImpl;
 import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.StopTime;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+
+import static edu.usf.cutr.gtfsrtvalidator.lib.validation.ValidationRules.E010;
 
 /**
  * E010 - If location_type is used in stops.txt, all stops referenced in stop_times.txt must have location_type of 0
@@ -49,14 +50,14 @@ public class StopLocationTypeValidator implements GtfsFeedValidator {
                 checkedStops.add(stopTime.getStop());
 
                 if (stopTime.getStop().getLocationType() != 0) {
-                    RuleUtils.addOccurrence(ValidationRules.E010, "stop_id " + stopTime.getStop().getId(), e010List, _log);
+                    RuleUtils.addOccurrence(E010, "stop_id " + stopTime.getStop().getId(), e010List, _log);
                 }
             }
         }
 
         List<ErrorListHelperModel> errors = new ArrayList<>();
         if (!e010List.isEmpty()) {
-            errors.add(new ErrorListHelperModel(new MessageLogModel(ValidationRules.E010), e010List));
+            errors.add(new ErrorListHelperModel(new MessageLogModel(E010), e010List));
         }
         return errors;
     }

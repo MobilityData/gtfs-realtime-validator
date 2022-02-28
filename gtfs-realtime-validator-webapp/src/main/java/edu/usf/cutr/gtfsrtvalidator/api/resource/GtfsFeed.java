@@ -23,7 +23,6 @@ import com.conveyal.gtfs.validator.json.FeedValidationResult;
 import com.conveyal.gtfs.validator.json.FeedValidationResultSet;
 import com.conveyal.gtfs.validator.json.backends.FileSystemFeedBackend;
 import com.conveyal.gtfs.validator.json.serialization.JsonSerializer;
-import edu.usf.cutr.gtfsrtvalidator.helper.HttpMessageHelper;
 import edu.usf.cutr.gtfsrtvalidator.db.GTFSDB;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.GtfsFeedModel;
 import edu.usf.cutr.gtfsrtvalidator.util.FileUtil;
@@ -55,6 +54,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static edu.usf.cutr.gtfsrtvalidator.helper.HttpMessageHelper.generateError;
 
 @Path("/gtfs-feed")
 public class GtfsFeed {
@@ -104,7 +105,7 @@ public class GtfsFeed {
         // Parse URL from the string provided by the web user
         URL url = getUrlFromString(gtfsFeedUrl);
         if (url == null) {
-            return HttpMessageHelper.generateError("Malformed URL", "Malformed URL for the GTFS feed.", Response.Status.BAD_REQUEST);
+            return generateError("Malformed URL", "Malformed URL for the GTFS feed.", Response.Status.BAD_REQUEST);
         }
 
         _log.info(String.format("Downloading GTFS data from %s...", url));
@@ -118,16 +119,16 @@ public class GtfsFeed {
         }
 
         if (connection == null) {
-            return HttpMessageHelper.generateError("Can't read from URL", "Failed to establish a connection to the GTFS URL.", Response.Status.BAD_REQUEST);
+            return generateError("Can't read from URL", "Failed to establish a connection to the GTFS URL.", Response.Status.BAD_REQUEST);
         }
 
         String gtfsFileName = FileUtil.getGtfsFileName(gtfsFeedUrl);
         // Download GTFS data
         Response.Status response = downloadGtfsFeed(gtfsFileName, connection);
         if (response == Response.Status.BAD_REQUEST) {
-            return HttpMessageHelper.generateError("Download Failed", "Downloading static GTFS feed from provided Url failed.", Response.Status.BAD_REQUEST);
+            return generateError("Download Failed", "Downloading static GTFS feed from provided Url failed.", Response.Status.BAD_REQUEST);
         } else if (response == Response.Status.FORBIDDEN) {
-            return HttpMessageHelper.generateError("SSL Handshake Failed", "SSL handshake failed.  Try installing the JCE Extension - see https://github.com/CUTR-at-USF/gtfs-realtime-validator#prerequisites", Response.Status.FORBIDDEN);
+            return generateError("SSL Handshake Failed", "SSL handshake failed.  Try installing the JCE Extension - see https://github.com/CUTR-at-USF/gtfs-realtime-validator#prerequisites", Response.Status.FORBIDDEN);
         }
 
         _log.info("GTFS zip file downloaded successfully");
@@ -170,7 +171,7 @@ public class GtfsFeed {
             _log.info("Loading GTFS from downloaded zip file on disk to memory...");
             gtfsMutableDao = loadGtfsFeedFromDisk(gtfsFeedModel);
             if (gtfsMutableDao == null) {
-                return HttpMessageHelper.generateError("Can't read content", "Can't read GTFS zip file from disk", Response.Status.NOT_FOUND);
+                return generateError("Can't read content", "Can't read GTFS zip file from disk", Response.Status.NOT_FOUND);
             }
             // Keep reference in memory to loaded GTFS data
             GtfsDaoMap.put(gtfsFeedModel.getFeedId(), gtfsMutableDao);
@@ -200,7 +201,7 @@ public class GtfsFeed {
             processor.run();
         } catch (IOException ex) {
             Logger.getLogger(GtfsFeed.class.getName()).log(Level.SEVERE, null, ex);
-            return HttpMessageHelper.generateError("Unable to access input GTFS " + input.getPath() + ".", "Does the file " + gtfsFileName + "exist and do I have permission to read it?", Response.Status.NOT_FOUND);
+            return generateError("Unable to access input GTFS " + input.getPath() + ".", "Does the file " + gtfsFileName + "exist and do I have permission to read it?", Response.Status.NOT_FOUND);
         }
         results.add(processor.getOutput());
         saveGtfsErrorCount(gtfsFeed, processor.getOutput());

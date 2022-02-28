@@ -17,16 +17,18 @@
 package edu.usf.cutr.gtfsrtvalidator.lib.test.rules;
 
 import com.google.transit.realtime.GtfsRealtime;
-import edu.usf.cutr.gtfsrtvalidator.lib.test.util.TestUtils;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.ValidationRule;
 import edu.usf.cutr.gtfsrtvalidator.lib.test.FeedMessageTest;
+import edu.usf.cutr.gtfsrtvalidator.lib.test.util.TestUtils;
 import edu.usf.cutr.gtfsrtvalidator.lib.util.TimestampUtils;
 import edu.usf.cutr.gtfsrtvalidator.lib.validation.rules.StopValidator;
 import org.junit.Test;
-import edu.usf.cutr.gtfsrtvalidator.lib.validation.ValidationRules;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static edu.usf.cutr.gtfsrtvalidator.lib.validation.ValidationRules.E011;
+import static edu.usf.cutr.gtfsrtvalidator.lib.validation.ValidationRules.E015;
 
 /**
  * Tests for rules implemented in StopValidator
@@ -83,7 +85,7 @@ public class StopValidatorTest extends FeedMessageTest {
         feedMessageBuilder.setEntity(0, feedEntityBuilder.build());
         results = locationValidator.validate(TimestampUtils.MIN_POSIX_TIME, gtfsData, gtfsDataMetadata, feedMessageBuilder.build(), null, null);
         // one error from TripUpdate feed stop_id = "DUMMY". VehiclePosition and Alert feeds have valid stop id = "A"
-        expected.put(ValidationRules.E011, 1);
+        expected.put(E011, 1);
         TestUtils.assertResults(expected, results);
         
         vehiclePositionBuilder.setStopId("DUMMY");
@@ -91,7 +93,7 @@ public class StopValidatorTest extends FeedMessageTest {
         feedMessageBuilder.setEntity(0, feedEntityBuilder.build());
         results = locationValidator.validate(TimestampUtils.MIN_POSIX_TIME, gtfsData, gtfsDataMetadata, feedMessageBuilder.build(), null, null);
         // 2 results from TripUpdate and VehiclePosition feeds stop_id="DUMMY". Alert feed have valid stop id ="A"
-        expected.put(ValidationRules.E011, 2);
+        expected.put(E011, 2);
         TestUtils.assertResults(expected, results);
         
         entitySelectorBuilder.setStopId("DUMMY");
@@ -100,7 +102,7 @@ public class StopValidatorTest extends FeedMessageTest {
         feedMessageBuilder.setEntity(0, feedEntityBuilder.build());
         results = locationValidator.validate(TimestampUtils.MIN_POSIX_TIME, gtfsData, gtfsDataMetadata, feedMessageBuilder.build(), null, null);
         // 3 results from TripUpdate, VehiclePosition and alert feeds stop_id="DUMMY"
-        expected.put(ValidationRules.E011, 3);
+        expected.put(E011, 3);
         TestUtils.assertResults(expected, results);
         
         clearAndInitRequiredFeedFields();
@@ -154,7 +156,7 @@ public class StopValidatorTest extends FeedMessageTest {
         feedMessageBuilder.setEntity(0, feedEntityBuilder.build());
         results = locationValidator.validate(TimestampUtils.MIN_POSIX_TIME, gtfsData2, gtfsData2Metadata, feedMessageBuilder.build(), null, null);
         // one error from TripUpdate feed stop_id = "B", which is location_type 1
-        expected.put(ValidationRules.E015, 1);
+        expected.put(E015, 1);
         TestUtils.assertResults(expected, results);
 
         vehiclePositionBuilder.setStopId("B");
@@ -162,7 +164,7 @@ public class StopValidatorTest extends FeedMessageTest {
         feedMessageBuilder.setEntity(0, feedEntityBuilder.build());
         results = locationValidator.validate(TimestampUtils.MIN_POSIX_TIME, gtfsData2, gtfsData2Metadata, feedMessageBuilder.build(), null, null);
         // 2 results from TripUpdate and VehiclePosition feeds stop_id = "B", which is location_type 1
-        expected.put(ValidationRules.E015, 2);
+        expected.put(E015, 2);
         TestUtils.assertResults(expected, results);
 
         entitySelectorBuilder.setStopId("B");
@@ -171,7 +173,7 @@ public class StopValidatorTest extends FeedMessageTest {
         feedMessageBuilder.setEntity(0, feedEntityBuilder.build());
         results = locationValidator.validate(TimestampUtils.MIN_POSIX_TIME, gtfsData2, gtfsData2Metadata, feedMessageBuilder.build(), null, null);
         // 2 results from TripUpdate, VehiclePosition and alert feeds stop_id = "B", which is location_type 1. Alerts can reference location_types other than 0.
-        expected.put(ValidationRules.E015, 2);
+        expected.put(E015, 2);
         TestUtils.assertResults(expected, results);
 
         clearAndInitRequiredFeedFields();

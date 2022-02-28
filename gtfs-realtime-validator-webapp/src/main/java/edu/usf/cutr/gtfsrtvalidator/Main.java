@@ -32,6 +32,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
+import static edu.usf.cutr.gtfsrtvalidator.util.FileUtil.GTFS_VALIDATOR_OUTPUT_FILE_PATH;
+
 public class Main {
     private static final org.slf4j.Logger _log = LoggerFactory.getLogger(Main.class);
 
@@ -57,7 +59,7 @@ public class Main {
          * '/jar-location-directory/classes/webroot' is where we store static GTFS feed validation json output.
          * 'classes/webroot' is created so that it will be in sync with or without build directories.
          */
-        String gtfsValidationOutputDir = FileUtil.getJarLocation(server).getParentFile() + File.separator + FileUtil.GTFS_VALIDATOR_OUTPUT_FILE_PATH;
+        String gtfsValidationOutputDir = FileUtil.getJarLocation(server).getParentFile() + File.separator + GTFS_VALIDATOR_OUTPUT_FILE_PATH;
         File gtfsValidationOutputFile = new File(gtfsValidationOutputDir);
         gtfsValidationOutputFile.mkdirs();
 

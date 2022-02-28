@@ -20,7 +20,6 @@ import edu.usf.cutr.gtfsrtvalidator.lib.model.ValidationRule;
 import edu.usf.cutr.gtfsrtvalidator.lib.model.helper.ErrorListHelperModel;
 import edu.usf.cutr.gtfsrtvalidator.lib.test.FeedMessageTest;
 import edu.usf.cutr.gtfsrtvalidator.lib.test.util.TestUtils;
-import edu.usf.cutr.gtfsrtvalidator.lib.validation.ValidationRules;
 import edu.usf.cutr.gtfsrtvalidator.lib.validation.gtfs.StopLocationTypeValidator;
 import org.junit.Test;
 
@@ -28,6 +27,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static edu.usf.cutr.gtfsrtvalidator.lib.validation.ValidationRules.E010;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -54,7 +54,7 @@ public class StopLocationTypeValidatorTest extends FeedMessageTest {
 
         // gtfsData2 contains location_type = 1 for stop_ids. Therefore returns errorcount = (number of location_type = 1 for stop_ids)
         results = stopLocationValidator.validate(gtfsData2);
-        expected.put(ValidationRules.E010, 1);
+        expected.put(E010, 1);
         TestUtils.assertResults(expected, results);
 
         clearAndInitRequiredFeedFields();
