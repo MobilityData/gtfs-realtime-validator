@@ -77,7 +77,7 @@ For logging configuration, see the [Config->Logging](../CONFIG.md#logging) secti
 
 Following are the requirements to build and run the project from source code: 
 
-* [Java Development Kit (JDK) 11 or higher](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html)
+* [Java Development Kit (JDK) 11 or higher](https://www.oracle.com/java/technologies/downloads/)
 * [Apache Maven](https://maven.apache.org/)
 
 #### 1. Build the project 
@@ -101,13 +101,22 @@ You can use the **gtfs-realtime-validator-lib** library in your own project as w
 To include a snapshot JAR via Maven, you'll need to add the below dependency to your `pom.xml`
 
 ~~~
-<dependencies>
+<!-- MobilityData SNAPSHOTs/RELEASES -->
+<repositories>
+    <repository>
+        <id>github</id>
+        <name>GitHub gtfs-realtime-validator</name>
+        <url>https://maven.pkg.github.com/MobilityData/gtfs-realtime-validator</url>
+        <releases><enabled>true</enabled></releases>
+        <snapshots><enabled>true</enabled></snapshots>
+    </repository>
+</repositories>
+...
    <dependency>
      <groupId>org.mobilitydata</groupId>
      <artifactId>gtfs-realtime-validator-lib</artifactId>
      <version>1.0.0-SNAPSHOT</version>
    </dependency>
-</dependencies>
 ~~~
 
 See the [**transit-feed-quality-calculator**](https://github.com/CUTR-at-USF/transit-feed-quality-calculator) for an example of using this library in another project.

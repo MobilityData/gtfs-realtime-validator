@@ -13,7 +13,7 @@ Questions? You can [open an issue](https://github.com/MobilityData/gtfs-realtime
 
 ### Prerequisites
 
-1. Install [Java Development Kit (JDK) 11 or higher](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html)
+1. Install [Java Development Kit (JDK) 11 or higher](https://www.oracle.com/java/technologies/downloads/)
 
 ### Run the webapp
 
@@ -53,7 +53,7 @@ The main **gtfs-realtime-validator-webapp** user interface is implemented as a w
 
 Following are the requirements to build and run the project from source code: 
 
-* [Java Development Kit (JDK) 11 or higher](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html)
+* [Java Development Kit (JDK) 11 or higher](https://www.oracle.com/java/technologies/downloads/)
 * [Apache Maven](https://maven.apache.org/)
 
 #### 1. Build the project 
@@ -72,7 +72,7 @@ If you're going to be rebuilding the project frequently (e.g., editing source co
 
 To start up the server so you can view the web interface, from the command-line, run: 
 
-* `java -jar {JAR file name}`, where `{JAR file name}` is the name of the file you downloaded previously. For example, if the JAR file name is `gtfs-realtime-validator-webapp-1.0.0-20220223.003109-1.jar`, you would run `gtfs-realtime-validator-webapp-1.0.0-20220223.003109-1.jar`.
+* `java -jar {JAR file name}`, where `{JAR file name}` is the name of the file you downloaded previously. For example, if the JAR file name is `gtfs-realtime-validator-webapp-1.0.0-20220223.003109-1.jar`, you would run `java -jar gtfs-realtime-validator-webapp-1.0.0-20220223.003109-1.jar`.
 
 
 You should see some output, and a message saying `Go to http://localhost:8080 in your browser`.
@@ -112,19 +112,27 @@ Having problems?  Check out our [Troubleshooting guide](TROUBLESHOOTING.md).
 
 **Snapshots**
 
-We've set up a Maven repository on GitHub Packages to hold the snapshot artifacts from this project - [GTFS Realtime Validator Packages](https://github.com/orgs/MobilityData/packages?repo_name=gtfs-realtime-validator).
+We've set up a Maven repository on GitHub Packages to hold the snapshot artifacts from this project - [GTFS Realtime Validator Packages](https://github.com/orgs/MobilityData/packages?repo_name=gtfs-realtime-validator). The GitHub Action [`test_package.yml`](../.github/workflows/test_package.yml) publishes to this repository.
 
 If you want to include snapshot releases in your project, you'll need to add the following to the `pom.xml` of the project you want to use it in:
 
 ~~~
 <!-- MobilityData SNAPSHOTs/RELEASES -->
-<dependencies>
+<repositories>
+    <repository>
+        <id>github</id>
+        <name>GitHub gtfs-realtime-validator</name>
+        <url>https://maven.pkg.github.com/MobilityData/gtfs-realtime-validator</url>
+        <releases><enabled>true</enabled></releases>
+        <snapshots><enabled>true</enabled></snapshots>
+    </repository>
+</repositories>
+...
    <dependency>
      <groupId>org.mobilitydata</groupId>
      <artifactId>gtfs-realtime-validator</artifactId>
      <version>1.0.0-SNAPSHOT</version>
    </dependency>
-</dependencies>
 ~~~
 
 ## Acknowledgements
