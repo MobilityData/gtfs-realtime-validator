@@ -98,6 +98,8 @@ This will generate a JAR file in the `gtfs-realtime-validator-lib/target/` direc
 
 You can use the **gtfs-realtime-validator-lib** library in your own project as well.  
 
+NOTE: You need to [authenticate with GitHub](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry#authenticating-with-a-personal-access-token) to download the below artifacts
+
 To include a snapshot JAR via Maven, you'll need to add the below dependency to your `pom.xml`
 
 ~~~

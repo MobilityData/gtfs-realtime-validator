@@ -114,6 +114,8 @@ Having problems?  Check out our [Troubleshooting guide](TROUBLESHOOTING.md).
 
 We've set up a Maven repository on GitHub Packages to hold the snapshot artifacts from this project - [GTFS Realtime Validator Packages](https://github.com/orgs/MobilityData/packages?repo_name=gtfs-realtime-validator). The GitHub Action [`test_package.yml`](../.github/workflows/test_package.yml) publishes to this repository.
 
+NOTE: You need to [authenticate with GitHub](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry#authenticating-with-a-personal-access-token) to download the below artifacts
+
 If you want to include snapshot releases in your project, you'll need to add the following to the `pom.xml` of the project you want to use it in:
 
 ~~~
