@@ -137,6 +137,9 @@ If you want to include snapshot releases in your project, you'll need to add the
    </dependency>
 ~~~
 
+## Projects based on this validator
+- The [French national access point to transport data](https://transport.data.gouv.fr/) is hosting a web interface of this validator available at [transport.data.gouv.fr/validation](https://transport.data.gouv.fr/validation?type=gtfs-rt). It can validate data using GTFS and GTFS Realtime URLs, and display the results.
+
 ## Acknowledgements
 
 This project was initially created by the [Center for Transportation Research](https://www.cutr.usf.edu/) at the University of South Florida. 
