@@ -45,7 +45,7 @@ java ... -Xmx512m -XX:MaxMetaspaceSize=512m
 
 See [this StackOverflow post](https://stackoverflow.com/a/38336005/937715) for more details.
 
-If you don't want to allocate more memory to the batch validator, note that you can typically avoid OOM errors on larger feeds by ignoring the rules that process shapes.txt file by adding the command line parameter:
+If you can't allocate more memory to the batch validator, note that you can typically avoid OOM errors on larger feeds by ignoring the rules that process shapes.txt file by adding the command line parameter:
 
 `-ignoreShapes yes`
 
