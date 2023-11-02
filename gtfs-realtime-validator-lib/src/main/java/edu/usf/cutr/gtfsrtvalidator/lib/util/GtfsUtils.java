@@ -140,6 +140,9 @@ public class GtfsUtils {
         if (position.getLongitude() < -180f || position.getLongitude() > 180f) {
             return false;
         }
+        if (position.getLongitude() == 0f && position.getLongitude() == 0f) {
+            return false;
+        }
         return true;
     }
 

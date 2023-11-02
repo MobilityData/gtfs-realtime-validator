@@ -231,6 +231,21 @@ public class VehicleValidatorTest extends FeedMessageTest {
         expected.put(E026, 1);
         TestUtils.assertResults(expected, results);
 
+        // Invalid lat & long - 1 error
+        positionBuilder.setLatitude(0f);
+        positionBuilder.setLongitude(0f);
+
+        vehiclePositionBuilder.setPosition(positionBuilder.build());
+
+        vehiclePositionBuilder.setVehicle(vehicleDescriptorBuilder.build());
+        feedEntityBuilder.setVehicle(vehiclePositionBuilder.build());
+        feedMessageBuilder.setEntity(0, feedEntityBuilder.build());
+
+        results = vehicleValidator.validate(MIN_POSIX_TIME, bullRunnerGtfs, bullRunnerGtfsMetadata, feedMessageBuilder.build(), null, null);
+        expected.put(E026, 1);
+        TestUtils.assertResults(expected, results);
+
+
         clearAndInitRequiredFeedFields();
     }
 
