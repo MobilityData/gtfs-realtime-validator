@@ -30,7 +30,7 @@ jobs:
         run: mvn --batch-mode --update-snapshots test
       - name: Persist Java tests reports
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Test reports
           path: |
