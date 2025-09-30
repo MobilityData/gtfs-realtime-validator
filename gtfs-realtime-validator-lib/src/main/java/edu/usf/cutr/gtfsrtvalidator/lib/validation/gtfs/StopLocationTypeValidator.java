@@ -32,7 +32,8 @@ import java.util.*;
 import static edu.usf.cutr.gtfsrtvalidator.lib.validation.ValidationRules.E010;
 
 /**
- * E010 - If location_type is used in stops.txt, all stops referenced in stop_times.txt must have location_type of 0
+ * E010 - If location_type is used in stops.txt, all stops referenced in
+ * stop_times.txt must have location_type of 0
  */
 public class StopLocationTypeValidator implements GtfsFeedValidator {
 
@@ -46,12 +47,16 @@ public class StopLocationTypeValidator implements GtfsFeedValidator {
         Set<Stop> checkedStops = new HashSet<>();
 
         for (StopTime stopTime : stopTimes) {
-            if (!checkedStops.contains(stopTime.getStop())) {
-                checkedStops.add(stopTime.getStop());
+            if (stopTime.getStop() instanceof Stop) {
+                Stop stop = (Stop) stopTime.getStop();
+                if (!checkedStops.contains(stop)) {
+                    checkedStops.add(stop);
 
-                if (stopTime.getStop().getLocationType() != 0) {
-                    RuleUtils.addOccurrence(E010, "stop_id " + stopTime.getStop().getId(), e010List, _log);
+                    if (stop.getLocationType() != 0) {
+                        RuleUtils.addOccurrence(E010, "stop_id " + stopTime.getStop().getId(), e010List, _log);
+                    }
                 }
+
             }
         }
 
