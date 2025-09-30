@@ -32,7 +32,7 @@
         </repository>
         <repository>
             <id>public.onebusaway.org</id>
-            <url>https://repo.camsys-apps.com/releases/</url>
+            <url>https://central.sonatype.com/namespace/org.onebusaway</url>
         </repository>
     </repositories>
     <distributionManagement>
