@@ -17,13 +17,12 @@
 
 package edu.usf.cutr.gtfsrtvalidator.lib.model;
 
-import org.hibernate.annotations.Type;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 @XmlRootElement
@@ -38,12 +37,12 @@ public class ValidationRule implements Serializable {
     @Column(name = "severity")
     private String severity;
 
+    @Lob
     @Column(name = "title")
-    @Type(type = "text")
     private String title;
 
+    @Lob
     @Column(name="errorDescription")
-    @Type(type = "text")
     private String errorDescription;
 
     /**
@@ -60,8 +59,8 @@ public class ValidationRule implements Serializable {
      *
      * @see OccurrenceModel
      */
+    @Lob
     @Column(name = "occurrenceSuffix")
-    @Type(type = "text")
     private String occurrenceSuffix;
 
     public ValidationRule() {

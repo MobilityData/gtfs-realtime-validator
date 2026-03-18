@@ -161,7 +161,7 @@ public class BackgroundTask implements Runnable {
                 } else {
                     feedIteration = new GtfsRtFeedIterationModel(System.currentTimeMillis(), feedTimestamp, null, mCurrentGtfsRtFeed, currentFeedDigest);
                 }
-                session.save(feedIteration);
+                session.persist(feedIteration);
                 GTFSDB.commitAndCloseSession(session);
 
                 if (!isUniqueFeed) {

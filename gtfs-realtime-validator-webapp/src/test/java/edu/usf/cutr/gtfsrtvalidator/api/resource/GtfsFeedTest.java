@@ -23,7 +23,7 @@ import edu.usf.cutr.gtfsrtvalidator.lib.model.GtfsFeedModel;
 import edu.usf.cutr.gtfsrtvalidator.util.FileUtil;
 import junit.framework.TestCase;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 import java.io.File;
 import java.util.List;
 

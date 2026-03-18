@@ -31,10 +31,10 @@ import edu.usf.cutr.gtfsrtvalidator.lib.model.helper.MergeMonitorData;
 import org.hibernate.Session;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.GenericEntity;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -106,7 +106,7 @@ public class GtfsRtFeed {
         GTFSDB.commitAndCloseSession(session);
         if(storedFeedInfo == null) {    //If null, create the gtfs-rt feed in the DB and return the feed
             session = GTFSDB.initSessionBeginTrans();
-            session.save(feedInfo);
+            session.persist(feedInfo);
             GTFSDB.commitAndCloseSession(session);
         }
         else return Response.ok(storedFeedInfo).build();
@@ -144,7 +144,7 @@ public class GtfsRtFeed {
         //Get RtFeedModel from id
         Session session = GTFSDB.initSessionBeginTrans();
         GtfsRtFeedModel gtfsRtFeed = (GtfsRtFeedModel) session.createQuery(" FROM GtfsRtFeedModel "
-                + "WHERE rtFeedID = :id")
+                + "WHERE gtfsRtId = :id")
                 .setParameter("id", id)
                 .uniqueResult();
 
@@ -154,7 +154,7 @@ public class GtfsRtFeed {
         sessionModel.setSessionStartTime(currentTimestamp);
         sessionModel.setGtfsRtFeedModel(gtfsRtFeed);
 
-        session.save(sessionModel);
+        session.persist(sessionModel);
         GTFSDB.commitAndCloseSession(session);
         boolean intervalUpdated = false;
         int leastInterval = updateInterval;
@@ -372,7 +372,7 @@ public class GtfsRtFeed {
                     .uniqueResult();
         } else {
             gtfsRtFeedIterationModel = (GtfsRtFeedIterationModel) session.createQuery(" FROM GtfsRtFeedIterationModel" +
-                    " WHERE rtFeedID = :gtfsRtId  ORDER BY IterationTimestamp DESC")
+                    " WHERE gtfsRtFeedModel.gtfsRtId = :gtfsRtId  ORDER BY timeStamp DESC")
                     .setParameter("gtfsRtId", gtfsRtId)
                     .setMaxResults(1).getSingleResult();
         }
@@ -462,7 +462,7 @@ public class GtfsRtFeed {
         }
         sessionModel.setErrorCount(errorCount);
         sessionModel.setWarningCount(warningCount);
-        session.saveOrUpdate(sessionModel);
+        session.merge(sessionModel);
         GTFSDB.commitAndCloseSession(session);
         if (runningTasks.get(sessionModel.getGtfsRtFeedModel().getGtfsRtUrl()).getParallelClientCount() == 1) {
             runningTasks.get(sessionModel.getGtfsRtFeedModel().getGtfsRtUrl()).getScheduler().shutdown();
@@ -568,12 +568,12 @@ public class GtfsRtFeed {
     public String getDateFormat(long feedTimestamp, int gtfsRtId) {
         Session session = GTFSDB.initSessionBeginTrans();
         GtfsRtFeedModel gtfsRtFeed = (GtfsRtFeedModel) session.createQuery(" FROM GtfsRtFeedModel "
-                + "WHERE rtFeedID = :gtfsRtId")
+                + "WHERE gtfsRtId = :gtfsRtId")
                 .setParameter("gtfsRtId", gtfsRtId)
                 .uniqueResult();
 
         GtfsFeedModel gtfsFeed = (GtfsFeedModel) session.createQuery("FROM GtfsFeedModel "
-                + "WHERE feedID = :feedID")
+                + "WHERE feedId = :feedID")
                 .setParameter("feedID", gtfsRtFeed.getGtfsFeedModel().getFeedId())
                 .uniqueResult();
         GTFSDB.commitAndCloseSession(session);

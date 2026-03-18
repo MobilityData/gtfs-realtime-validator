@@ -36,7 +36,7 @@ public class GTFSDB {
         List<ValidationRule> rules = ValidationRules.getRules();
         try {
             for (ValidationRule rule : rules) {
-                session.saveOrUpdate(rule);
+                session.merge(rule);
             }
             commitAndCloseSession(session);
         } catch (Exception ex) {

@@ -33,10 +33,10 @@ import org.onebusaway.gtfs.services.GtfsMutableDao;
 import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLHandshakeException;
-import javax.ws.rs.*;
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.GenericEntity;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -242,7 +242,7 @@ public class GtfsFeed {
 
         // Create GTFS feed row in database
         Session session = GTFSDB.initSessionBeginTrans();
-        session.save(gtfsFeed);
+        session.persist(gtfsFeed);
         GTFSDB.commitAndCloseSession(session);
         return gtfsFeed;
     }
