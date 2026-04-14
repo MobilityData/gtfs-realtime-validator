@@ -159,7 +159,13 @@
                         <include>**/*Spec.*</include>
                         <include>**/*Test.*</include>
                     </includes>
-                    <argLine>-Xmx4G -Xms1G</argLine>
+                    <argLine>-Xmx4G -Xms1G
+                        --add-opens java.base/java.lang=ALL-UNNAMED
+                        --add-opens java.base/java.io=ALL-UNNAMED
+                        --add-opens java.base/java.util=ALL-UNNAMED
+                        --add-opens java.base/java.util.concurrent=ALL-UNNAMED
+                        --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+                        --add-opens java.base/java.math=ALL-UNNAMED</argLine>
                 </configuration>
             </plugin>
 
@@ -203,6 +209,8 @@
                         </filter>
                     </filters>
 
+                    <!-- Attach the uber-jar as a secondary artifact so the main jar stays dependency-clean -->
+                    <shadedArtifactAttached>true</shadedArtifactAttached>
                     <shadedClassifierName>withAllDependencies</shadedClassifierName>
                     <transformers>
                         <transformer

@@ -34,7 +34,7 @@ public class GtfsRtFeedModel implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="rtFeedID")
-    private int gtfsRtId;
+    private Integer gtfsRtId;
     @Transient
     private boolean enableShapes;
 
@@ -56,11 +56,11 @@ public class GtfsRtFeedModel implements Serializable {
         this.gtfsFeedModel = gtfsFeedModel;
     }
 
-    public int getGtfsRtId() {
+    public Integer getGtfsRtId() {
         return gtfsRtId;
     }
 
-    public void setGtfsRtId(int gtfsRtId) {
+    public void setGtfsRtId(Integer gtfsRtId) {
         this.gtfsRtId = gtfsRtId;
     }
 

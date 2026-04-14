@@ -230,9 +230,13 @@ public class GtfsRtFeed {
                 .setMaxResults(summaryRowsPerPage)
                 .list();
 
+        // Fetch timezone once using the open session to avoid a nested session checkout
+        // that would deadlock the single-connection C3P0 pool.
+        agencyTimezone = fetchAgencyTimezone(gtfsRtId, session);
+
         for (ViewErrorSummaryModel viewErrorSummaryModel : feedSummary) {
             int index = feedSummary.indexOf(viewErrorSummaryModel);
-            String formattedTimestamp = getDateFormat(viewErrorSummaryModel.getLastFeedTime(), gtfsRtId);
+            String formattedTimestamp = formatTimestamp(viewErrorSummaryModel.getLastFeedTime(), agencyTimezone);
             viewErrorSummaryModel.setFormattedTimestamp(formattedTimestamp);
             viewErrorSummaryModel.setLastFeedTime(TimeUnit.MILLISECONDS.toSeconds(viewErrorSummaryModel.getLastFeedTime()));
             viewErrorSummaryModel.setTimeZone(agencyTimezone);
@@ -255,7 +259,7 @@ public class GtfsRtFeed {
                 .list();
 
         for (ViewErrorLogModel viewErrorLogModel: feedLog) {
-            String formattedTimestamp = getDateFormat(viewErrorLogModel.getOccurrence(), gtfsRtId);
+            String formattedTimestamp = formatTimestamp(viewErrorLogModel.getOccurrence(), agencyTimezone);
             viewErrorLogModel.setFormattedTimestamp(formattedTimestamp);
             viewErrorLogModel.setOccurrence(TimeUnit.MILLISECONDS.toSeconds(viewErrorLogModel.getOccurrence()));
             viewErrorLogModel.setTimeZone(agencyTimezone);
@@ -567,6 +571,13 @@ public class GtfsRtFeed {
 
     public String getDateFormat(long feedTimestamp, int gtfsRtId) {
         Session session = GTFSDB.initSessionBeginTrans();
+        agencyTimezone = fetchAgencyTimezone(gtfsRtId, session);
+        GTFSDB.commitAndCloseSession(session);
+        return formatTimestamp(feedTimestamp, agencyTimezone);
+    }
+
+    /** Looks up the agency timezone for the given RT feed using an already-open session. */
+    private String fetchAgencyTimezone(int gtfsRtId, Session session) {
         GtfsRtFeedModel gtfsRtFeed = (GtfsRtFeedModel) session.createQuery(" FROM GtfsRtFeedModel "
                 + "WHERE gtfsRtId = :gtfsRtId")
                 .setParameter("gtfsRtId", gtfsRtId)
@@ -576,14 +587,16 @@ public class GtfsRtFeed {
                 + "WHERE feedId = :feedID")
                 .setParameter("feedID", gtfsRtFeed.getGtfsFeedModel().getFeedId())
                 .uniqueResult();
-        GTFSDB.commitAndCloseSession(session);
-        agencyTimezone = gtfsFeed.getAgency();
+        return gtfsFeed.getAgency();
+    }
 
+    /** Formats a timestamp using the given timezone string; no database access. */
+    private String formatTimestamp(long feedTimestamp, String timezone) {
         DateFormat todaytimeFormat = new SimpleDateFormat("hh:mm:ss a");
         DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
         DateFormat todayDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        TimeZone timeZone = TimeZone.getTimeZone(agencyTimezone);
+        TimeZone timeZone = TimeZone.getTimeZone(timezone);
         todaytimeFormat.setTimeZone(timeZone);
         dateTimeFormat.setTimeZone(timeZone);
         todayDateFormat.setTimeZone(timeZone);
@@ -596,7 +609,7 @@ public class GtfsRtFeed {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if(feedTimestamp < fromStartOfDay) {
+        if (feedTimestamp < fromStartOfDay) {
             formattedTime = dateTimeFormat.format(feedTimestamp);
         } else {
             formattedTime = todaytimeFormat.format(feedTimestamp);

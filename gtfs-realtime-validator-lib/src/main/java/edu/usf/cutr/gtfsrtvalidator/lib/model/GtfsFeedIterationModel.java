@@ -31,7 +31,7 @@ public class GtfsFeedIterationModel implements Serializable {
     @Id
     @Column(name="IterationID")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int IterationId;
+    private Integer IterationId;
     @Column(name="IterationTimestamp")
     private long timeStamp;
     @ManyToOne
@@ -46,11 +46,11 @@ public class GtfsFeedIterationModel implements Serializable {
         this.gtfsFeedModel = gtfsFeedModel;
     }
 
-    public int getIterationId() {
+    public Integer getIterationId() {
         return IterationId;
     }
 
-    public void setIterationId(int iterationId) {
+    public void setIterationId(Integer iterationId) {
         IterationId = iterationId;
     }
 

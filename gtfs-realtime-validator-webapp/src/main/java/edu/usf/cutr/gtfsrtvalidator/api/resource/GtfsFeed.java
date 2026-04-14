@@ -70,8 +70,8 @@ public class GtfsFeed {
     @Path("/{id}")
     public Response deleteGtfsFeed(@PathParam("id") String id) {
         Session session = GTFSDB.initSessionBeginTrans();
-        session.createQuery("DELETE FROM GtfsFeedModel WHERE feedID = :feedID")
-                .setParameter("feedID", id)
+        session.createQuery("DELETE FROM GtfsFeedModel WHERE feedId = :feedId")
+                .setParameter("feedId", Integer.valueOf(id))
                 .executeUpdate();
         GTFSDB.commitAndCloseSession(session);
         return Response.accepted().build();
@@ -139,12 +139,15 @@ public class GtfsFeed {
         String projectPath = FileUtil.getJarLocation(this).getParentFile().getAbsolutePath();
         boolean validationFileExists = new File(projectPath + File.separator + FileUtil.GTFS_VALIDATOR_OUTPUT_FILE_PATH + File.separator + gtfsFileName + "_out.json").exists();
 
-        // See if a GTFS feed with the same URL exists in the database
-        Session session = GTFSDB.initSessionBeginTrans();
-        GtfsFeedModel gtfsFeedModel = (GtfsFeedModel) session.createQuery("FROM GtfsFeedModel "
+        // See if a GTFS feed with the same URL exists in the database.
+        // Close the session immediately after the query so the single pool connection
+        // is available for subsequent operations (createGtfsFeedModel, updateGtfsFeedModel, etc.).
+        Session querySession = GTFSDB.initSessionBeginTrans();
+        GtfsFeedModel gtfsFeedModel = (GtfsFeedModel) querySession.createQuery("FROM GtfsFeedModel "
                 + "WHERE gtfsUrl = :gtfsFeedUrl")
                 .setParameter("gtfsFeedUrl", gtfsFeedUrl)
                 .uniqueResult();
+        GTFSDB.closeSession(querySession);
 
         boolean gtfsChangedOrNew;
         if (gtfsFeedModel == null) {
@@ -181,8 +184,9 @@ public class GtfsFeed {
         if (gtfsChangedOrNew) {
             _log.info("Writing GTFS data to database...");
             gtfsFeedModel.setAgency(gtfsMutableDao.getAllAgencies().iterator().next().getTimezone());
-            session.update(gtfsFeedModel);
-            GTFSDB.commitAndCloseSession(session);
+            Session updateSession = GTFSDB.initSessionBeginTrans();
+            updateSession.update(gtfsFeedModel);
+            GTFSDB.commitAndCloseSession(updateSession);
         }
 
         if (validationRequested && (gtfsChangedOrNew || !validationFileExists)) {

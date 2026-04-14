@@ -35,7 +35,7 @@ public class MessageLogModel implements Serializable {
     @Id
     @Column(name="messageID")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int messageId;
+    private Integer messageId;
     @ManyToOne
     @JoinColumn(name = "iterationID")
     private GtfsRtFeedIterationModel gtfsRtFeedIterationModel;
@@ -45,11 +45,11 @@ public class MessageLogModel implements Serializable {
     @Column(name = "errorDetails")
     private String errorDetails;
 
-    public int getMessageId() {
+    public Integer getMessageId() {
         return messageId;
     }
 
-    public void setMessageId(int messageId) {
+    public void setMessageId(Integer messageId) {
         this.messageId = messageId;
     }
 

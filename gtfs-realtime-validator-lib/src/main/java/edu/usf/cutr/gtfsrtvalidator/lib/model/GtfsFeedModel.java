@@ -31,7 +31,7 @@ public class GtfsFeedModel implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="feedID")
-    private int feedId;
+    private Integer feedId;
     @Column(name="downloadTimestamp")
     private long startTime;
     @Column(name="fileLocation")
@@ -54,11 +54,11 @@ public class GtfsFeedModel implements Serializable {
         this.gtfsUrl = gtfsUrl;
     }
 
-    public int getFeedId() {
+    public Integer getFeedId() {
         return feedId;
     }
 
-    public void setFeedId(int feedId) {
+    public void setFeedId(Integer feedId) {
         this.feedId = feedId;
     }
 

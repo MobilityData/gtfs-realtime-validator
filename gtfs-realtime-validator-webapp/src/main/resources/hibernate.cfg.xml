@@ -8,6 +8,9 @@
     <property name="hibernate.c3p0.max_size">1</property>
     <property name="hibernate.c3p0.timeout">1800</property>
     <property name="hibernate.c3p0.max_statements">50</property>
+    <!-- Fail fast if a connection cannot be acquired rather than waiting indefinitely -->
+    <property name="hibernate.c3p0.breakAfterAcquireFailure">true</property>
+    <property name="hibernate.c3p0.checkoutTimeout">10000</property>
     <property name="hibernate.connection.username">sa</property>
     <property name="hibernate.connection.password"></property>
     <property name="hibernate.hbm2ddl.auto">update</property>
