@@ -16,11 +16,11 @@
  */
 package edu.usf.cutr.gtfsrtvalidator.lib.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedNativeQuery;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedNativeQuery;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @Entity

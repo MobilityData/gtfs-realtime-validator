@@ -36,7 +36,7 @@ public class GTFSDB {
         List<ValidationRule> rules = ValidationRules.getRules();
         try {
             for (ValidationRule rule : rules) {
-                session.saveOrUpdate(rule);
+                session.merge(rule);
             }
             commitAndCloseSession(session);
         } catch (Exception ex) {
@@ -81,11 +81,23 @@ public class GTFSDB {
      * Closes a session used for multiple READ-ONLY operations -
      * see https://github.com/CUTR-at-USF/gtfs-realtime-validator/pull/135#discussion_r113005572.
      *
+     * Rolls back any active transaction before closing so the underlying
+     * JDBC connection is returned cleanly to the C3P0 pool.
+     *
      * @param session session to be closed
      */
     public static void closeSession(Session session) {
-        if(session != null) {
-            session.close();
+        if (session != null) {
+            try {
+                Transaction tx = session.getTransaction();
+                if (tx != null && tx.isActive()) {
+                    tx.rollback();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            } finally {
+                session.close();
+            }
         }
     }
 }

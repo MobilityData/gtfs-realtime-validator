@@ -19,7 +19,7 @@ package edu.usf.cutr.gtfsrtvalidator.helper;
 
 import edu.usf.cutr.gtfsrtvalidator.lib.model.ErrorMessageModel;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 public class HttpMessageHelper {
     /**

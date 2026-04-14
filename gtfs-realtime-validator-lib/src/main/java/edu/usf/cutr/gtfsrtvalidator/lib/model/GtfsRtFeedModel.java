@@ -17,8 +17,8 @@
 
 package edu.usf.cutr.gtfsrtvalidator.lib.model;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 @XmlRootElement
@@ -34,7 +34,7 @@ public class GtfsRtFeedModel implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="rtFeedID")
-    private int gtfsRtId;
+    private Integer gtfsRtId;
     @Transient
     private boolean enableShapes;
 
@@ -56,11 +56,11 @@ public class GtfsRtFeedModel implements Serializable {
         this.gtfsFeedModel = gtfsFeedModel;
     }
 
-    public int getGtfsRtId() {
+    public Integer getGtfsRtId() {
         return gtfsRtId;
     }
 
-    public void setGtfsRtId(int gtfsRtId) {
+    public void setGtfsRtId(Integer gtfsRtId) {
         this.gtfsRtId = gtfsRtId;
     }
 

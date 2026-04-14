@@ -11,7 +11,55 @@
 
     <properties>
         <GITHUB_REPOSITORY>MobilityData/gtfs-realtime-validator</GITHUB_REPOSITORY>
+        <!-- Centralized version to ensure we don't accidentally pull in legacy c3p0:c3p0 (0.9.1.2) -->
+        <c3p0.version>0.10.1</c3p0.version>
+        <maven.enforcer.plugin.version>3.4.1</maven.enforcer.plugin.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Force a single modern c3p0 implementation across all modules -->
+            <dependency>
+                <groupId>com.mchange</groupId>
+                <artifactId>c3p0</artifactId>
+                <version>${c3p0.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${maven.enforcer.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>enforce-no-legacy-c3p0</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <!-- Fail the build if the ancient, JDBC-incompatible artifact is present anywhere -->
+                                    <bannedDependencies>
+                                        <searchTransitive>true</searchTransitive>
+                                        <excludes>
+                                            <exclude>c3p0:c3p0</exclude>
+                                        </excludes>
+                                    </bannedDependencies>
+                                    <!-- Helps catch other classpath diamond issues early -->
+                                    <dependencyConvergence />
+                                </rules>
+                                <fail>true</fail>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
     <modules>
         <module>gtfs-realtime-validator-lib</module>

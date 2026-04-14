@@ -17,8 +17,8 @@
 
 package edu.usf.cutr.gtfsrtvalidator.lib.model;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 @XmlRootElement
@@ -29,7 +29,7 @@ public class SessionModel implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "sessionId")
-    private int sessionId;
+    private Integer sessionId;
 
     @ManyToOne
     @JoinColumn(name = "rtFeedId")
@@ -66,11 +66,11 @@ public class SessionModel implements Serializable {
     @Transient
     private String totalTime;
 
-    public int getSessionId() {
+    public Integer getSessionId() {
         return sessionId;
     }
 
-    public void setSessionId(int sessionId) {
+    public void setSessionId(Integer sessionId) {
         this.sessionId = sessionId;
     }
 

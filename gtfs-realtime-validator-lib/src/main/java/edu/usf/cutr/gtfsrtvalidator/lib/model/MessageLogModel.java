@@ -17,8 +17,8 @@
 
 package edu.usf.cutr.gtfsrtvalidator.lib.model;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 @XmlRootElement
@@ -35,7 +35,7 @@ public class MessageLogModel implements Serializable {
     @Id
     @Column(name="messageID")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int messageId;
+    private Integer messageId;
     @ManyToOne
     @JoinColumn(name = "iterationID")
     private GtfsRtFeedIterationModel gtfsRtFeedIterationModel;
@@ -45,11 +45,11 @@ public class MessageLogModel implements Serializable {
     @Column(name = "errorDetails")
     private String errorDetails;
 
-    public int getMessageId() {
+    public Integer getMessageId() {
         return messageId;
     }
 
-    public void setMessageId(int messageId) {
+    public void setMessageId(Integer messageId) {
         this.messageId = messageId;
     }
 

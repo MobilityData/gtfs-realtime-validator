@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
-    <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
-    <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
+    <property name="hibernate.connection.driver_class">org.hsqldb.jdbc.JDBCDriver</property>
     <property name="hibernate.connection.url">jdbc:hsqldb:file:gtfsrthsql;hsqldb.log_data=false</property>
-    <property name="hibernate.c3p0.min_size">1</property>
-    <property name="hibernate.c3p0.max_size">1</property>
+    <property name="hibernate.c3p0.min_size">2</property>
+    <property name="hibernate.c3p0.max_size">10</property>
     <property name="hibernate.c3p0.timeout">1800</property>
     <property name="hibernate.c3p0.max_statements">50</property>
+    <!-- Fail fast if a connection cannot be acquired rather than waiting indefinitely -->
+    <property name="hibernate.c3p0.breakAfterAcquireFailure">true</property>
+    <property name="hibernate.c3p0.checkoutTimeout">30000</property>
+    <!-- Reclaim leaked connections after 300 seconds -->
+    <property name="hibernate.c3p0.unreturnedConnectionTimeout">300</property>
     <property name="hibernate.connection.username">sa</property>
     <property name="hibernate.connection.password"></property>
     <property name="hibernate.hbm2ddl.auto">update</property>

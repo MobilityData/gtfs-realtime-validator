@@ -43,7 +43,21 @@
             <groupId>org.onebusaway</groupId>
             <artifactId>onebusaway-gtfs</artifactId>
             <version>1.3.87</version>
+            <exclusions>
+                <!-- Old legacy coordinates (c3p0:c3p0:0.9.1.2) break Java 6+ JDBC APIs (e.g., Connection#createClob). -->
+                <exclusion>
+                    <groupId>c3p0</groupId>
+                    <artifactId>c3p0</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
+        <!-- Ensure we have the modern c3p0 implementation on the classpath (version pinned in parent) -->
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+        </dependency>
+
         <!-- Command line parameter parsing -->
         <dependency>
             <groupId>commons-cli</groupId>
@@ -84,20 +98,21 @@
             <version>4.13.1</version>
         </dependency>
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>2.0.0.Final</version>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <!-- Jakarta Persistence API -->
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>3.1.0</version>
         </dependency>
         <!-- Hibernate -->
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.6.7.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.javassist</groupId>
-            <artifactId>javassist</artifactId>
-            <version>3.28.0-GA</version>
+            <version>6.4.4.Final</version>
         </dependency>
         <!-- Spatial operations -->
         <dependency>
@@ -130,8 +145,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.7.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
 
@@ -144,7 +159,13 @@
                         <include>**/*Spec.*</include>
                         <include>**/*Test.*</include>
                     </includes>
-                    <argLine>-Xmx4G -Xms1G</argLine>
+                    <argLine>-Xmx4G -Xms1G
+                        --add-opens java.base/java.lang=ALL-UNNAMED
+                        --add-opens java.base/java.io=ALL-UNNAMED
+                        --add-opens java.base/java.util=ALL-UNNAMED
+                        --add-opens java.base/java.util.concurrent=ALL-UNNAMED
+                        --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+                        --add-opens java.base/java.math=ALL-UNNAMED</argLine>
                 </configuration>
             </plugin>
 
@@ -188,6 +209,8 @@
                         </filter>
                     </filters>
 
+                    <!-- Attach the uber-jar as a secondary artifact so the main jar stays dependency-clean -->
+                    <shadedArtifactAttached>true</shadedArtifactAttached>
                     <shadedClassifierName>withAllDependencies</shadedClassifierName>
                     <transformers>
                         <transformer

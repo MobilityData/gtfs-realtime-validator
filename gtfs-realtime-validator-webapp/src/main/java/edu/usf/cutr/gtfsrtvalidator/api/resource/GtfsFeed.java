@@ -33,10 +33,10 @@ import org.onebusaway.gtfs.services.GtfsMutableDao;
 import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLHandshakeException;
-import javax.ws.rs.*;
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.GenericEntity;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -70,8 +70,8 @@ public class GtfsFeed {
     @Path("/{id}")
     public Response deleteGtfsFeed(@PathParam("id") String id) {
         Session session = GTFSDB.initSessionBeginTrans();
-        session.createQuery("DELETE FROM GtfsFeedModel WHERE feedID = :feedID")
-                .setParameter("feedID", id)
+        session.createQuery("DELETE FROM GtfsFeedModel WHERE feedId = :feedId")
+                .setParameter("feedId", Integer.valueOf(id))
                 .executeUpdate();
         GTFSDB.commitAndCloseSession(session);
         return Response.accepted().build();
@@ -139,12 +139,19 @@ public class GtfsFeed {
         String projectPath = FileUtil.getJarLocation(this).getParentFile().getAbsolutePath();
         boolean validationFileExists = new File(projectPath + File.separator + FileUtil.GTFS_VALIDATOR_OUTPUT_FILE_PATH + File.separator + gtfsFileName + "_out.json").exists();
 
-        // See if a GTFS feed with the same URL exists in the database
-        Session session = GTFSDB.initSessionBeginTrans();
-        GtfsFeedModel gtfsFeedModel = (GtfsFeedModel) session.createQuery("FROM GtfsFeedModel "
-                + "WHERE gtfsUrl = :gtfsFeedUrl")
-                .setParameter("gtfsFeedUrl", gtfsFeedUrl)
-                .uniqueResult();
+        // See if a GTFS feed with the same URL exists in the database.
+        // Close the session immediately after the query so the single pool connection
+        // is available for subsequent operations (createGtfsFeedModel, updateGtfsFeedModel, etc.).
+        Session querySession = GTFSDB.initSessionBeginTrans();
+        GtfsFeedModel gtfsFeedModel;
+        try {
+            gtfsFeedModel = (GtfsFeedModel) querySession.createQuery("FROM GtfsFeedModel "
+                    + "WHERE gtfsUrl = :gtfsFeedUrl")
+                    .setParameter("gtfsFeedUrl", gtfsFeedUrl)
+                    .uniqueResult();
+        } finally {
+            GTFSDB.closeSession(querySession);
+        }
 
         boolean gtfsChangedOrNew;
         if (gtfsFeedModel == null) {
@@ -181,8 +188,9 @@ public class GtfsFeed {
         if (gtfsChangedOrNew) {
             _log.info("Writing GTFS data to database...");
             gtfsFeedModel.setAgency(gtfsMutableDao.getAllAgencies().iterator().next().getTimezone());
-            session.update(gtfsFeedModel);
-            GTFSDB.commitAndCloseSession(session);
+            Session updateSession = GTFSDB.initSessionBeginTrans();
+            updateSession.update(gtfsFeedModel);
+            GTFSDB.commitAndCloseSession(updateSession);
         }
 
         if (validationRequested && (gtfsChangedOrNew || !validationFileExists)) {
@@ -242,7 +250,7 @@ public class GtfsFeed {
 
         // Create GTFS feed row in database
         Session session = GTFSDB.initSessionBeginTrans();
-        session.save(gtfsFeed);
+        session.persist(gtfsFeed);
         GTFSDB.commitAndCloseSession(session);
         return gtfsFeed;
     }

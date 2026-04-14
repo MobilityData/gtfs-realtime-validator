@@ -19,7 +19,7 @@ package edu.usf.cutr.gtfsrtvalidator.lib.model.combined;
 
 import edu.usf.cutr.gtfsrtvalidator.lib.model.GtfsRtFeedIterationString;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 @XmlRootElement
