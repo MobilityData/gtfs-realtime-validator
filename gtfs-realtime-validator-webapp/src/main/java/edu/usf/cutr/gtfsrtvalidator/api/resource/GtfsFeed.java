@@ -143,11 +143,15 @@ public class GtfsFeed {
         // Close the session immediately after the query so the single pool connection
         // is available for subsequent operations (createGtfsFeedModel, updateGtfsFeedModel, etc.).
         Session querySession = GTFSDB.initSessionBeginTrans();
-        GtfsFeedModel gtfsFeedModel = (GtfsFeedModel) querySession.createQuery("FROM GtfsFeedModel "
-                + "WHERE gtfsUrl = :gtfsFeedUrl")
-                .setParameter("gtfsFeedUrl", gtfsFeedUrl)
-                .uniqueResult();
-        GTFSDB.closeSession(querySession);
+        GtfsFeedModel gtfsFeedModel;
+        try {
+            gtfsFeedModel = (GtfsFeedModel) querySession.createQuery("FROM GtfsFeedModel "
+                    + "WHERE gtfsUrl = :gtfsFeedUrl")
+                    .setParameter("gtfsFeedUrl", gtfsFeedUrl)
+                    .uniqueResult();
+        } finally {
+            GTFSDB.closeSession(querySession);
+        }
 
         boolean gtfsChangedOrNew;
         if (gtfsFeedModel == null) {

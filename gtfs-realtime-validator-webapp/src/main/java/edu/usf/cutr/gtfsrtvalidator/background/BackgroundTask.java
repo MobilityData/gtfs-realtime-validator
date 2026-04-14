@@ -126,43 +126,50 @@ public class BackgroundTask implements Runnable {
                 byte[] currentFeedDigest = md.digest(gtfsRtProtobuf);
 
                 session = GTFSDB.initSessionBeginTrans();
-                feedIteration = (GtfsRtFeedIterationModel) session.createQuery("FROM GtfsRtFeedIterationModel"
-                        + " WHERE rtFeedId = :gtfsRtId"
-                        + " ORDER BY IterationId DESC")
-                        .setParameter("gtfsRtId", mCurrentGtfsRtFeed.getGtfsRtId())
-                        .setMaxResults(1)
-                        .uniqueResult();
-                if (feedIteration != null) {
-                    prevFeedDigest = feedIteration.getFeedHash();
-                }
-
-                if(MessageDigest.isEqual(currentFeedDigest, prevFeedDigest)) {
-                    // If previous feed digest and newly fetched/current feed digest are equal means, we received the same feed again.
-                    isUniqueFeed = false;
-                }
-
-                long startProtobufDecode = System.nanoTime();
-                currentFeedMessage = GtfsRealtime.FeedMessage.parseFrom(gtfsRtProtobuf);
-                consoleOutput.append("\n" + mCurrentGtfsRtFeed.getGtfsRtUrl() + " protobuf decode in " + getElapsedTimeString(getElapsedTime(startProtobufDecode, System.nanoTime())));
-                _log.info(consoleOutput.toString());
-                consoleOutput.setLength(0);  // Clear the buffer for the next set of log statements
-
-                long feedTimestamp = TimeUnit.SECONDS.toMillis(currentFeedMessage.getHeader().getTimestamp());
-
-                // Create new feedIteration object and save the iteration to the database
-                if(isUniqueFeed) {
-                    if (feedIteration != null && feedIteration.getFeedprotobuf() != null) {
-                        // Get the previous feed message
-                        InputStream previousIs = new ByteArrayInputStream(feedIteration.getFeedprotobuf());
-                        previousFeedMessage = GtfsRealtime.FeedMessage.parseFrom(previousIs);
+                try {
+                    feedIteration = (GtfsRtFeedIterationModel) session.createQuery("FROM GtfsRtFeedIterationModel"
+                            + " WHERE gtfsRtFeedModel.gtfsRtId = :gtfsRtId"
+                            + " ORDER BY IterationId DESC")
+                            .setParameter("gtfsRtId", mCurrentGtfsRtFeed.getGtfsRtId())
+                            .setMaxResults(1)
+                            .uniqueResult();
+                    if (feedIteration != null) {
+                        prevFeedDigest = feedIteration.getFeedHash();
                     }
 
-                    feedIteration = new GtfsRtFeedIterationModel(System.currentTimeMillis(), feedTimestamp, gtfsRtProtobuf, mCurrentGtfsRtFeed, currentFeedDigest);
-                } else {
-                    feedIteration = new GtfsRtFeedIterationModel(System.currentTimeMillis(), feedTimestamp, null, mCurrentGtfsRtFeed, currentFeedDigest);
+                    if(MessageDigest.isEqual(currentFeedDigest, prevFeedDigest)) {
+                        // If previous feed digest and newly fetched/current feed digest are equal means, we received the same feed again.
+                        isUniqueFeed = false;
+                    }
+
+                    long startProtobufDecode = System.nanoTime();
+                    currentFeedMessage = GtfsRealtime.FeedMessage.parseFrom(gtfsRtProtobuf);
+                    consoleOutput.append("\n" + mCurrentGtfsRtFeed.getGtfsRtUrl() + " protobuf decode in " + getElapsedTimeString(getElapsedTime(startProtobufDecode, System.nanoTime())));
+                    _log.info(consoleOutput.toString());
+                    consoleOutput.setLength(0);  // Clear the buffer for the next set of log statements
+
+                    long feedTimestamp = TimeUnit.SECONDS.toMillis(currentFeedMessage.getHeader().getTimestamp());
+
+                    // Create new feedIteration object and save the iteration to the database
+                    if(isUniqueFeed) {
+                        if (feedIteration != null && feedIteration.getFeedprotobuf() != null) {
+                            // Get the previous feed message
+                            InputStream previousIs = new ByteArrayInputStream(feedIteration.getFeedprotobuf());
+                            previousFeedMessage = GtfsRealtime.FeedMessage.parseFrom(previousIs);
+                        }
+
+                        feedIteration = new GtfsRtFeedIterationModel(System.currentTimeMillis(), feedTimestamp, gtfsRtProtobuf, mCurrentGtfsRtFeed, currentFeedDigest);
+                    } else {
+                        feedIteration = new GtfsRtFeedIterationModel(System.currentTimeMillis(), feedTimestamp, null, mCurrentGtfsRtFeed, currentFeedDigest);
+                    }
+                    session.persist(feedIteration);
+                    GTFSDB.commitAndCloseSession(session);
+                    session = null; // Mark as closed
+                } finally {
+                    if (session != null) {
+                        GTFSDB.commitAndCloseSession(session);
+                    }
                 }
-                session.persist(feedIteration);
-                GTFSDB.commitAndCloseSession(session);
 
                 if (!isUniqueFeed) {
                     return;
@@ -180,12 +187,14 @@ public class BackgroundTask implements Runnable {
             List<GtfsRealtime.FeedEntity> allEntitiesArrayList = new ArrayList<>();
 
             List<GtfsRtFeedModel> gtfsRtFeedModelList;
-            gtfsRtFeedModelList = session.createQuery("FROM GtfsRtFeedModel"
-                    + " WHERE gtfsFeedID = :feedID")
-                    .setParameter("feedID", mCurrentGtfsRtFeed.getGtfsFeedModel().getFeedId())
-                    .list();
-
-            GTFSDB.closeSession(session);
+            try {
+                gtfsRtFeedModelList = session.createQuery("FROM GtfsRtFeedModel"
+                        + " WHERE gtfsFeedModel.feedId = :feedID")
+                        .setParameter("feedID", mCurrentGtfsRtFeed.getGtfsFeedModel().getFeedId())
+                        .list();
+            } finally {
+                GTFSDB.closeSession(session);
+            }
 
             while (!mGtfsRtFeedMap.keySet().containsAll(gtfsRtFeedModelList.stream().map(GtfsRtFeedModel::getGtfsRtId).collect(Collectors.toSet()))) {
                 Thread.sleep(200);
