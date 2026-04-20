@@ -16,3 +16,8 @@ buildNumber.properties
 *~
 
 *.db
+
+gtfs-realtime-validator-webapp/gtfsrthsql.*
+gtfs-realtime-validator-webapp/http*
+
+
