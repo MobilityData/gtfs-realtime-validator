@@ -18,9 +18,9 @@ Questions? You can [open an issue](https://github.com/MobilityData/gtfs-realtime
 ### Run the webapp
 
 1. Download the latest webapp snapshot jar of the validator from the [webapp package](https://github.com/MobilityData/gtfs-realtime-validator/packages/1268975).
-1. From the command line run `java -jar {JAR file name}`, where `{JAR file name}` is the name of the file you downloaded in the previous step. For example, if the JAR file name is `gtfs-realtime-validator-webapp-1.0.0-20220223.003109-1.jar`, you would run `java -jar gtfs-realtime-validator-webapp-1.0.0-20220223.003109-1.jar`.
-1. When prompted, in your browser go to `http://localhost:8080`
-1. Enter your [General Transit Feed Specification (GTFS)-realtime](https://developers.google.com/transit/gtfs-realtime/) and [GTFS](https://developers.google.com/transit/gtfs/) feed URLs and click "Start".  Example feeds:
+2. From the command line run `java -jar {JAR file name}`, where `{JAR file name}` is the name of the file you downloaded in the previous step. For example, if the JAR file name is `gtfs-realtime-validator-webapp-1.0.0-20220223.003109-1.jar`, you would run `java -jar gtfs-realtime-validator-webapp-1.0.0-20220223.003109-1.jar`.
+3. When prompted, in your browser go to `http://localhost:8080`
+4. Enter your [General Transit Feed Specification (GTFS)-realtime](https://developers.google.com/transit/gtfs-realtime/) and [GTFS](https://developers.google.com/transit/gtfs/) feed URLs and click "Start".  Example feeds:
     * HART (Tampa, FL)
         * GTFS Realtime - http://api.tampa.onebusaway.org:8088/trip-updates
         * GTFS - http://gohart.org/google/google_transit.zip
@@ -45,7 +45,7 @@ Have a suggestion for a new rule?  Open an issue with the ["new rule" label](htt
 
 There are two components to this project:
 * **gtfs-realtime-validator-lib** - The core library that implements GTFS Realtime [validation rules](RULES.md) as well as [batch processing mode](gtfs-realtime-validator-lib/README.md#batch-processing).  You can use this same library [in your own project](gtfs-realtime-validator-lib/README.md#using-validation-rules-or-the-batch-processor-in-your-project).
-* **gtfs-realtime-validator-webapp** - A server and website that allows multiple users to validate GTFS-relatime feeds by simply entering URLs into the website.
+* **gtfs-realtime-validator-webapp** - A server and website that allows multiple users to validate GTFS-realtime feeds by simply entering URLs into the website.
 
 The main **gtfs-realtime-validator-webapp** user interface is implemented as a web application, with the backend code written in Java.  An instance of the [Jetty embedded server](https://www.eclipse.org/jetty/) is used to run the application, with [Hibernate](https://hibernate.org/) used for data persistence.
 
@@ -112,7 +112,7 @@ Having problems?  Check out our [Troubleshooting guide](TROUBLESHOOTING.md).
 
 **Snapshots**
 
-We've set up a Maven repository on GitHub Packages to hold the snapshot artifacts from this project - [GTFS Realtime Validator Packages](https://github.com/orgs/MobilityData/packages?repo_name=gtfs-realtime-validator). The GitHub Action [`test_package.yml`](../.github/workflows/test_package.yml) publishes to this repository.
+We've set up a Maven repository on GitHub Packages to hold the snapshot artifacts from this project - [GTFS Realtime Validator Packages](https://github.com/orgs/MobilityData/packages?repo_name=gtfs-realtime-validator). The GitHub Action [`test_package.yml`](./.github/workflows/test_package.yml) publishes to this repository.
 
 NOTE: You need to [authenticate with GitHub](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry#authenticating-with-a-personal-access-token) to download the below artifacts
 
