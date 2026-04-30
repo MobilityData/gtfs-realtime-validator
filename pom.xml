@@ -16,6 +16,7 @@
     <modules>
         <module>gtfs-realtime-validator-lib</module>
 		<module>gtfs-realtime-validator-webapp</module>
+		<module>gtfs-realtime-validator-api</module>
     </modules>
 
     <repositories>
