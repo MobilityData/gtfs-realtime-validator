@@ -451,10 +451,6 @@ public class UtilTest {
         /**
          * Valid lat/longs
          */
-        positionBuilder.setLatitude(0);
-        positionBuilder.setLongitude(0);
-
-        assertEquals(true, GtfsUtils.isPositionValid(positionBuilder.build()));
 
         positionBuilder.setLatitude(-90);
         positionBuilder.setLongitude(-180);
@@ -469,6 +465,11 @@ public class UtilTest {
         /**
          * Bad lat or long
          */
+        positionBuilder.setLatitude(0);
+        positionBuilder.setLongitude(0);
+
+        assertEquals(false, GtfsUtils.isPositionValid(positionBuilder.build()));
+
         positionBuilder.setLatitude(-91);
         positionBuilder.setLongitude(0);
 
